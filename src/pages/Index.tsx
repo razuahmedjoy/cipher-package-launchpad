@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import PackageCard from '../components/PackageCard';
 import LaunchButton from '../components/LaunchButton';
 import StatusMessage from '../components/StatusMessage';
+import { Package, Star, Shield } from 'lucide-react';
 
 const Index = () => {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
@@ -14,16 +14,19 @@ const Index = () => {
       name: 'Package 1',
       price: 550,
       bonus: 200,
+      icon: <Package size={20} />,
     },
     {
       name: 'Package 2',
       price: 1600,
       bonus: 500,
+      icon: <Star size={20} />,
     },
     {
       name: 'Package 3',
       price: 3600,
       bonus: 1000,
+      icon: <Shield size={20} />,
     },
   ];
 
@@ -52,14 +55,18 @@ const Index = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
             Rug Rader ViP
           </h1>
-          <p className="text-xl text-gray-400">
-            Select your preferred package and launch the code
-          </p>
+          {/* Status Message */}
+          {status && (
+            <div className="flex justify-center">
+              <StatusMessage message={status} />
+            </div>
+          )}
+
         </div>
 
         {/* Package Selection */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {packages.map(({name, price, bonus}) => (
+          {packages.map(({ name, price, bonus, icon }) => (
             <PackageCard
               key={name}
               packageName={name}
@@ -67,6 +74,7 @@ const Index = () => {
               onSelect={() => handlePackageSelect(name)}
               price={price}
               bonus={bonus}
+              icon={icon}
             />
           ))}
         </div>
@@ -80,12 +88,6 @@ const Index = () => {
           />
         </div>
 
-        {/* Status Message */}
-        {status && (
-          <div className="flex justify-center">
-            <StatusMessage message={status} />
-          </div>
-        )}
 
         {/* Background Effects */}
         <div className="fixed inset-0 pointer-events-none">

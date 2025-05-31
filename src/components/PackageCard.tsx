@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Package } from 'lucide-react';
 
@@ -8,9 +7,10 @@ interface PackageCardProps {
   onSelect: () => void;
   price: number;
   bonus: number;
+  icon: React.ReactNode;
 }
 
-const PackageCard = ({ packageName, isSelected, onSelect, price, bonus }: PackageCardProps) => {
+const PackageCard = ({ packageName, isSelected, onSelect, price, bonus, icon }: PackageCardProps) => {
   return (
     <div
       onClick={onSelect}
@@ -43,13 +43,7 @@ const PackageCard = ({ packageName, isSelected, onSelect, price, bonus }: Packag
             : 'bg-gray-700 group-hover:bg-gray-600'
           }
         `}>
-          <Package 
-            size={20} 
-            className={`
-              transition-all duration-300
-              ${isSelected ? 'text-gray-900' : 'text-cyan-400'}
-            `} 
-          />
+          {icon}
         </div>
         
         <h3 className={`
