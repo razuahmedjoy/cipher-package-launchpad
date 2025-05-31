@@ -11,19 +11,19 @@ const Index = () => {
 
   const packages = [
     {
-      name: 'Starter Pack',
+      name: 'Package 1',
       price: 550,
       bonus: 200,
       icon: <Package size={20} />,
     },
     {
-      name: 'Pro Pack',
+      name: 'Package 2',
       price: 1600,
       bonus: 500,
       icon: <Star size={20} />,
     },
     {
-      name: 'Premium Pack',
+      name: 'Package 3',
       price: 3600,
       bonus: 1000,
       icon: <Shield size={20} />,
