@@ -6,9 +6,11 @@ interface PackageCardProps {
   packageName: string;
   isSelected: boolean;
   onSelect: () => void;
+  price: number;
+  bonus: number;
 }
 
-const PackageCard = ({ packageName, isSelected, onSelect }: PackageCardProps) => {
+const PackageCard = ({ packageName, isSelected, onSelect, price, bonus }: PackageCardProps) => {
   return (
     <div
       onClick={onSelect}
@@ -20,8 +22,20 @@ const PackageCard = ({ packageName, isSelected, onSelect }: PackageCardProps) =>
         }
         hover:transform hover:scale-105 hover:shadow-xl
       `}
-    >
-      <div className="flex flex-col items-center space-y-3">
+    > 
+      <div className='absolute top-0 right-0 w-full'>
+        <div className='flex w-full justify-between px-4 py-2'>
+          <div className='flex items-center gap-2'>
+            <p className='text-sm text-gray-400 font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500'>{price}$</p>
+          </div>
+          <div className='flex items-center gap-2'>
+            <p className='text-sm text-gray-400 font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500'>+{bonus}$</p>
+          </div>
+
+        </div>
+
+      </div>
+      <div className="flex flex-col items-center space-y-2">
         <div className={`
           p-3 rounded-full transition-all duration-300
           ${isSelected 

@@ -9,7 +9,23 @@ const Index = () => {
   const [status, setStatus] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const packages = ['Package 1', 'Package 2', 'Package 3'];
+  const packages = [
+    {
+      name: 'Package 1',
+      price: 550,
+      bonus: 200,
+    },
+    {
+      name: 'Package 2',
+      price: 1600,
+      bonus: 500,
+    },
+    {
+      name: 'Package 3',
+      price: 3600,
+      bonus: 1000,
+    },
+  ];
 
   const handlePackageSelect = (packageName: string) => {
     setSelectedPackage(packageName);
@@ -20,7 +36,7 @@ const Index = () => {
     if (selectedPackage && !isLoading) {
       setIsLoading(true);
       setStatus(null);
-      
+
       setTimeout(() => {
         setIsLoading(false);
         setStatus('Server loaded');
@@ -32,9 +48,9 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-center p-8">
       <div className="max-w-4xl w-full space-y-12">
         {/* Header */}
-        <div className="text-center space-y-4">
-          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-            Crypto Package Launcher
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+            Rug Rader ViP
           </h1>
           <p className="text-xl text-gray-400">
             Select your preferred package and launch the code
@@ -43,12 +59,14 @@ const Index = () => {
 
         {/* Package Selection */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {packages.map((packageName) => (
+          {packages.map(({name, price, bonus}) => (
             <PackageCard
-              key={packageName}
-              packageName={packageName}
-              isSelected={selectedPackage === packageName}
-              onSelect={() => handlePackageSelect(packageName)}
+              key={name}
+              packageName={name}
+              isSelected={selectedPackage === name}
+              onSelect={() => handlePackageSelect(name)}
+              price={price}
+              bonus={bonus}
             />
           ))}
         </div>
