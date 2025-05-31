@@ -1,5 +1,5 @@
 import React from 'react';
-import { Package } from 'lucide-react';
+import { Box, Gift, Package } from 'lucide-react';
 
 interface PackageCardProps {
   packageName: string;
@@ -31,9 +31,7 @@ const PackageCard = ({ packageName, isSelected, onSelect, price, bonus, icon }: 
           <div className='flex items-center gap-2'>
             <p className='text-sm text-gray-400 font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500'>+{bonus}$</p>
           </div>
-
         </div>
-
       </div>
       <div className="flex flex-col items-center space-y-2">
         <div className={`
