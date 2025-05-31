@@ -42,7 +42,15 @@ const Index = () => {
 
       setTimeout(() => {
         setIsLoading(false);
-        setStatus('Server loaded');
+        if (selectedPackage === 'Package 1') {
+          setStatus('Server loaded');
+        } else {
+          const randomNum = Math.floor(1000 + Math.random() * 9000); // Generates a 4-digit number
+          const code = selectedPackage === 'Package 2' 
+            ? `RUG-PRO-${randomNum}`
+            : `RUG-PREMIUM-${randomNum}`;
+          setStatus(code);
+        }
       }, 3000);
     }
   };
@@ -58,7 +66,10 @@ const Index = () => {
           {/* Status Message */}
           {status && (
             <div className="flex justify-center">
-              <StatusMessage message={status} />
+              <StatusMessage 
+                message={status} 
+                variant={selectedPackage === 'Package 1' ? 'error' : 'success'} 
+              />
             </div>
           )}
 
