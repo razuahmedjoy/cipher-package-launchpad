@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -84,11 +85,49 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'glitter': {
+					'0%, 100%': {
+						'box-shadow': '0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff'
+					},
+					'50%': {
+						'box-shadow': '0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff'
+					}
+				},
+				'border-spin': {
+					'0%': {
+						'border-image-source': 'linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff)'
+					},
+					'25%': {
+						'border-image-source': 'linear-gradient(135deg, #ff00ff, #ffff00, #00ffff, #ff00ff)'
+					},
+					'50%': {
+						'border-image-source': 'linear-gradient(225deg, #ffff00, #00ffff, #ff00ff, #ffff00)'
+					},
+					'75%': {
+						'border-image-source': 'linear-gradient(315deg, #00ffff, #ff00ff, #ffff00, #00ffff)'
+					},
+					'100%': {
+						'border-image-source': 'linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff)'
+					}
+				},
+				'pulse-glow': {
+					'0%, 100%': {
+						opacity: '1',
+						transform: 'scale(1)'
+					},
+					'50%': {
+						opacity: '0.8',
+						transform: 'scale(1.02)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'glitter': 'glitter 1.5s ease-in-out infinite',
+				'border-spin': 'border-spin 2s linear infinite',
+				'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
 			}
 		}
 	},
