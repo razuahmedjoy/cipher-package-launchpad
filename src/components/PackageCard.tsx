@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Package, PackageCheck, PackageOpen } from 'lucide-react';
+import { Box, Gift, Package } from 'lucide-react';
 
 interface PackageCardProps {
   packageName: string;
@@ -8,18 +8,18 @@ interface PackageCardProps {
   onSelect: () => void;
   price: number;
   bonus: number;
-  iconType: 'package' | 'package-check' | 'package-open';
+  iconType: 'box' | 'gift' | 'package';
 }
 
 const PackageCard = ({ packageName, isSelected, onSelect, price, bonus, iconType }: PackageCardProps) => {
   const getIcon = () => {
     switch (iconType) {
+      case 'box':
+        return Box;
+      case 'gift':
+        return Gift;
       case 'package':
         return Package;
-      case 'package-check':
-        return PackageCheck;
-      case 'package-open':
-        return PackageOpen;
       default:
         return Package;
     }
