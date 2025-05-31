@@ -14,16 +14,19 @@ const Index = () => {
       name: 'Package 1',
       price: 550,
       bonus: 200,
+      iconType: 'package' as const,
     },
     {
       name: 'Package 2',
       price: 1600,
       bonus: 500,
+      iconType: 'package-check' as const,
     },
     {
       name: 'Package 3',
       price: 3600,
       bonus: 1000,
+      iconType: 'package-open' as const,
     },
   ];
 
@@ -59,7 +62,7 @@ const Index = () => {
 
         {/* Package Selection */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {packages.map(({name, price, bonus}) => (
+          {packages.map(({name, price, bonus, iconType}) => (
             <PackageCard
               key={name}
               packageName={name}
@@ -67,6 +70,7 @@ const Index = () => {
               onSelect={() => handlePackageSelect(name)}
               price={price}
               bonus={bonus}
+              iconType={iconType}
             />
           ))}
         </div>

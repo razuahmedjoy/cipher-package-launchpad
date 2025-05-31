@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Package } from 'lucide-react';
+import { Package, PackageCheck, PackageOpen } from 'lucide-react';
 
 interface PackageCardProps {
   packageName: string;
@@ -8,9 +8,25 @@ interface PackageCardProps {
   onSelect: () => void;
   price: number;
   bonus: number;
+  iconType: 'package' | 'package-check' | 'package-open';
 }
 
-const PackageCard = ({ packageName, isSelected, onSelect, price, bonus }: PackageCardProps) => {
+const PackageCard = ({ packageName, isSelected, onSelect, price, bonus, iconType }: PackageCardProps) => {
+  const getIcon = () => {
+    switch (iconType) {
+      case 'package':
+        return Package;
+      case 'package-check':
+        return PackageCheck;
+      case 'package-open':
+        return PackageOpen;
+      default:
+        return Package;
+    }
+  };
+
+  const IconComponent = getIcon();
+
   return (
     <div
       onClick={onSelect}
@@ -31,9 +47,7 @@ const PackageCard = ({ packageName, isSelected, onSelect, price, bonus }: Packag
           <div className='flex items-center gap-2'>
             <p className='text-sm text-gray-400 font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500'>+{bonus}$</p>
           </div>
-
         </div>
-
       </div>
       <div className="flex flex-col items-center space-y-2">
         <div className={`
@@ -43,7 +57,7 @@ const PackageCard = ({ packageName, isSelected, onSelect, price, bonus }: Packag
             : 'bg-gray-700 group-hover:bg-gray-600'
           }
         `}>
-          <Package 
+          <IconComponent 
             size={20} 
             className={`
               transition-all duration-300
