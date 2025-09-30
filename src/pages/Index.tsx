@@ -2,28 +2,45 @@ import React, { useState } from 'react';
 import PackageCard from '../components/PackageCard';
 import LaunchButton from '../components/LaunchButton';
 import StatusMessage from '../components/StatusMessage';
-import { Package, Star, Shield } from 'lucide-react';
+import VipCodePanel, { VipEntry } from '../components/VipCodePanel';
+import OverloadPanel from '../components/OverloadPanel';
+import { Package, Star, Shield, Zap, Activity, ShieldCheck, Award } from 'lucide-react';
 
 const Index = () => {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [vipCurrent, setVipCurrent] = useState<VipEntry | null>(null);
+  const [vipRecent, setVipRecent] = useState<VipEntry[]>([]);
 
-  const packages = [
+  type Pkg = {
+    name: string;
+    label: string;
+    price: number;
+    bonus: number;
+    icon: React.ReactNode;
+    badge?: string;
+  };
+
+  const packages: Pkg[] = [
     {
       name: 'Package 1',
+      label: 'Starter',
       price: 550,
       bonus: 200,
       icon: <Package size={20} />,
     },
     {
       name: 'Package 2',
+      label: 'Pro',
       price: 1600,
       bonus: 500,
       icon: <Star size={20} />,
+      badge: 'POPULAR',
     },
     {
       name: 'Package 3',
+      label: 'Premium',
       price: 3600,
       bonus: 1000,
       icon: <Shield size={20} />,
@@ -33,6 +50,7 @@ const Index = () => {
   const handlePackageSelect = (packageName: string) => {
     setSelectedPackage(packageName);
     setStatus(null);
+    setVipCurrent(null);
   };
 
   const handleLaunchCode = () => {
@@ -43,55 +61,84 @@ const Index = () => {
       setTimeout(() => {
         setIsLoading(false);
         if (selectedPackage === 'Package 1') {
+          setVipCurrent(null);
           setStatus('Server loaded');
         } else {
           const randomNum = Math.floor(1000 + Math.random() * 9000); // Generates a 4-digit number
-          const code = selectedPackage === 'Package 2' 
+          const isPro = selectedPackage === 'Package 2';
+          const code = isPro 
             ? `RUG-PRO-${randomNum}`
             : `RUG-PREMIUM-${randomNum}`;
+          const entry: VipEntry = { code, tier: isPro ? 'Pro' : 'Premium' };
+          setVipCurrent(entry);
+          setVipRecent((prev) => [entry, ...prev].slice(0, 5));
           setStatus(code);
         }
-      }, 3000);
+      }, 2000);
+    }
+  };
+
+  const stats = [
+    { label: 'Today', value: '100+', icon: <Activity size={16} className="text-cyan-400" /> },
+    { label: 'Uptime', value: '99.9%', icon: <ShieldCheck size={16} className="text-cyan-400" /> },
+    { label: 'Success', value: '95%+', icon: <Award size={16} className="text-cyan-400" /> },
+  ];
+
+  const handleCopy = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      console.error('Failed to copy to clipboard');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-center p-8">
-      <div className="max-w-4xl w-full space-y-12">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 to-gray-900 flex flex-col items-center px-4 py-6">
+      <div className="w-full max-w-md space-y-6">
         {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-            Rug Rader ViP
-          </h1>
-          {/* Status Message */}
-          {status && (
-            <div className="flex justify-center">
-              <StatusMessage 
-                message={status} 
-                variant={selectedPackage === 'Package 1' ? 'error' : 'success'} 
-              />
-            </div>
-          )}
-
+        <div className="text-center space-y-1">
+          <div className="mx-auto w-11 h-11 rounded-full bg-amber-500/15 border border-amber-400/30 flex items-center justify-center">
+            <Zap size={22} className="text-amber-400" />
+          </div>
+          <h1 className="text-2xl font-extrabold text-white">RugRader VIP</h1>
+          <p className="text-sm text-gray-400">Generate exclusive VIP codes For your next Rug</p>
         </div>
 
-        {/* Package Selection */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {packages.map(({ name, price, bonus, icon }) => (
-            <PackageCard
-              key={name}
-              packageName={name}
-              isSelected={selectedPackage === name}
-              onSelect={() => handlePackageSelect(name)}
-              price={price}
-              bonus={bonus}
-              icon={icon}
-            />
+        {/* Stats Row */}
+        <div className="grid grid-cols-3 gap-3">
+          {stats.map(({ label, value, icon }) => (
+            <div key={label} className="rounded-xl bg-white/5 border border-white/10 p-3 text-center">
+              <div className="flex items-center justify-center gap-1 text-xs text-gray-400">
+                {icon}
+                <span>{label}</span>
+              </div>
+              <div className="mt-1 text-base font-semibold text-white">{value}</div>
+            </div>
           ))}
         </div>
 
-        {/* Launch Button */}
-        <div className="flex justify-center">
+        {/* Choose Package */}
+        <div>
+          <h2 className="text-white/90 font-semibold text-base mb-3">Choose Package</h2>
+          <div className="space-y-4">
+            {packages.map(({ name, label, price, bonus, icon, badge }) => (
+              <PackageCard
+                key={name}
+                packageName={name}
+                label={label}
+                isSelected={selectedPackage === name}
+                onSelect={() => handlePackageSelect(name)}
+                price={price}
+                bonus={bonus}
+                icon={icon}
+                badge={badge}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div>
           <LaunchButton
             onClick={handleLaunchCode}
             disabled={!selectedPackage}
@@ -99,13 +146,19 @@ const Index = () => {
           />
         </div>
 
-
-        {/* Background Effects */}
-        <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-400/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-blue-400/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 left-1/2 w-64 h-64 bg-purple-400/5 rounded-full blur-3xl animate-pulse" />
-        </div>
+        {/* Status / VIP / Overload */}
+        {vipCurrent ? (
+          <VipCodePanel current={vipCurrent} recent={vipRecent} onCopy={handleCopy} />
+        ) : selectedPackage === 'Package 1' && status ? (
+          <OverloadPanel />
+        ) : (
+          status && (
+            <StatusMessage 
+              message={status} 
+              variant={selectedPackage === 'Package 1' ? 'error' : 'success'} 
+            />
+          )
+        )}
       </div>
     </div>
   );
