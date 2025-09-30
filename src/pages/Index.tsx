@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PackageCard from '../components/PackageCard';
 import LaunchButton from '../components/LaunchButton';
 import StatusMessage from '../components/StatusMessage';
@@ -47,6 +47,20 @@ const Index = () => {
     },
   ];
 
+  // Random initial state: Starter, Pro, or none
+  useEffect(() => {
+    const roll = Math.random();
+    if (roll < 1 / 3) {
+      setSelectedPackage('Package 1');
+    } else if (roll < 2 / 3) {
+      setSelectedPackage('Package 2');
+    } else {
+      setSelectedPackage(null);
+    }
+    setStatus(null);
+    setVipCurrent(null);
+  }, []);
+
   const handlePackageSelect = (packageName: string) => {
     setSelectedPackage(packageName);
     setStatus(null);
@@ -66,7 +80,7 @@ const Index = () => {
         } else {
           const randomNum = Math.floor(1000 + Math.random() * 9000); // Generates a 4-digit number
           const isPro = selectedPackage === 'Package 2';
-          const code = isPro 
+          const code = isPro
             ? `RUG-PRO-${randomNum}`
             : `RUG-PREMIUM-${randomNum}`;
           const entry: VipEntry = { code, tier: isPro ? 'Pro' : 'Premium' };
@@ -79,9 +93,9 @@ const Index = () => {
   };
 
   const stats = [
-    { label: 'Today', value: '100+', icon: <Activity size={16} className="text-cyan-400" /> },
-    { label: 'Uptime', value: '99.9%', icon: <ShieldCheck size={16} className="text-cyan-400" /> },
-    { label: 'Success', value: '95%+', icon: <Award size={16} className="text-cyan-400" /> },
+    { label: 'Today', value: '100+', icon: <Activity size={14} className="text-cyan-400" /> },
+    { label: 'Uptime', value: '99.9%', icon: <ShieldCheck size={14} className="text-green-400" /> },
+    { label: 'Success', value: '95%+', icon: <Award size={14} className="text-orange-400" /> },
   ];
 
   const handleCopy = async (text: string) => {
@@ -105,14 +119,17 @@ const Index = () => {
         </div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-1">
           {stats.map(({ label, value, icon }) => (
             <div key={label} className="rounded-xl bg-white/5 border border-white/10 p-3 text-center">
-              <div className="flex items-center justify-center gap-1 text-xs text-gray-400">
+              <div className="flex items-center justify-center gap-1">
                 {icon}
-                <span>{label}</span>
               </div>
               <div className="mt-1 text-base font-semibold text-white">{value}</div>
+
+              <div className="flex items-center justify-center gap-1 text-xs text-gray-400">
+                <span>{label}</span>
+              </div>
             </div>
           ))}
         </div>
@@ -153,9 +170,9 @@ const Index = () => {
           <OverloadPanel />
         ) : (
           status && (
-            <StatusMessage 
-              message={status} 
-              variant={selectedPackage === 'Package 1' ? 'error' : 'success'} 
+            <StatusMessage
+              message={status}
+              variant={selectedPackage === 'Package 1' ? 'error' : 'success'}
             />
           )
         )}
