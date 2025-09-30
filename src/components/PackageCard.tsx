@@ -39,7 +39,7 @@ const PackageCard = ({ packageName, label, isSelected, onSelect, price, bonus, i
       onClick={handleClick}
       aria-disabled={disabled}
       className={`
-        relative transition-all duration-300 rounded-2xl p-4
+        relative transition-all duration-300 rounded-xl p-4
         flex items-center justify-between gap-3
         ${disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}
         ${isSelected 
@@ -63,13 +63,13 @@ const PackageCard = ({ packageName, label, isSelected, onSelect, price, bonus, i
           <h3 className={`text-base font-semibold ${isSelected ? 'text-white' : 'text-gray-200'}`}>
             {label || packageName}
           </h3>
+          <div className="flex items-baseline gap-3">
+            <div className="text-cyan-400 font-bold text-lg">${price}</div>
+            <div className="text-green-400 text-sm">+${bonus}</div>
+          </div>
         </div>
       </div>
 
-      <div className="text-right">
-        <div className="text-cyan-400 font-bold text-lg">${price}</div>
-        <div className="text-green-400 text-sm">+${bonus}</div>
-      </div>
     </div>
   );
 };
