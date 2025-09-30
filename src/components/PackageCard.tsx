@@ -9,6 +9,7 @@ interface PackageCardProps {
   bonus: number;
   icon: React.ReactNode;
   badge?: string;
+  disabled?: boolean;
 }
 
 const GoldStar = () => (
@@ -27,13 +28,20 @@ const GoldStar = () => (
   </svg>
 );
 
-const PackageCard = ({ packageName, label, isSelected, onSelect, price, bonus, icon, badge }: PackageCardProps) => {
+const PackageCard = ({ packageName, label, isSelected, onSelect, price, bonus, icon, badge, disabled }: PackageCardProps) => {
+  const handleClick = () => {
+    if (disabled) return;
+    onSelect();
+  };
+
   return (
     <div
-      onClick={onSelect}
+      onClick={handleClick}
+      aria-disabled={disabled}
       className={`
-        relative cursor-pointer transition-all duration-300 rounded-2xl p-4
+        relative transition-all duration-300 rounded-2xl p-4
         flex items-center justify-between gap-3
+        ${disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}
         ${isSelected 
           ? 'bg-white/5 border border-cyan-400 shadow-lg shadow-cyan-400/20' 
           : 'bg-white/5 border border-white/10 hover:border-cyan-400 hover:bg-white/10 opacity-90 hover:opacity-100'

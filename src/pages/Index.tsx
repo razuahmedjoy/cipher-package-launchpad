@@ -62,6 +62,7 @@ const Index = () => {
   }, []);
 
   const handlePackageSelect = (packageName: string) => {
+    if (isLoading) return; // prevent switching during loading
     setSelectedPackage(packageName);
     setStatus(null);
     setVipCurrent(null);
@@ -149,6 +150,7 @@ const Index = () => {
                 bonus={bonus}
                 icon={icon}
                 badge={badge}
+                disabled={isLoading}
               />
             ))}
           </div>
